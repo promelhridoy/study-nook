@@ -1,8 +1,10 @@
+import HeroPage from "@/components/homepage/Banner";
 
 
 export default function Home() {
   return (
-    <div>HOME
+    <div>
+      <HeroPage/>
     </div>
   );
 }

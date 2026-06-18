@@ -14,8 +14,7 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "All Rooms", href: "/all-rooms" },
     { name: "Add Room", href: "/add-room" },
-    { name: "My Listings", href: "/my-listings" },
-    { name: "My Bookings", href: "/my-bookings" },
+    { name: "Profile", href: "/profile" },
   ];
 
   // Framer Motion Variants
@@ -40,7 +39,7 @@ const Navbar = () => {
 
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-default-200 bg-background/80 backdrop-blur-xl">
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="px-4 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           
           {/* Logo */}
@@ -48,10 +47,9 @@ const Navbar = () => {
             <Image
               src="/assets/logo.png"
               alt="StudyNook Logo"
-              width={150}
-              height={40}
+              width={180}
+              height={50}
               priority
-              className="h-auto w-auto"
             />
           </Link>
 
