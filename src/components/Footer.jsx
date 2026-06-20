@@ -39,7 +39,7 @@ const Footer = () => {
       viewport={{ once: true }}
       variants={footerVariants}
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-12">
+      <div className="container mx-auto px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 text-center md:text-left">
           
           {/* Brand Section */}

@@ -78,7 +78,7 @@ const HeroPage = () => {
           </motion.p>
 
           <motion.div variants={fadeInUp}>
-            <Link href="/rooms">
+            <Link href="/all-rooms">
               <motion.button 
                 className="px-8 py-3.5 bg-teal-600 hover:bg-teal-700 dark:bg-teal-500 dark:hover:bg-teal-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-teal-500/20 w-full sm:w-auto text-lg"
                 whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}

@@ -32,7 +32,7 @@ const WhyChooseUs = () => {
 
   return (
     <section className="py-20 bg-white dark:bg-slate-950 transition-colors duration-300">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* 🔥 NEW HEADING */}
         <div className="text-center mb-14">
