@@ -14,7 +14,8 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "All Rooms", href: "/all-rooms" },
     { name: "Add Room", href: "/add-room" },
-    { name: "Profile", href: "/profile" },
+    {name: "My Listings", href: "/my-listings"},
+    {name: "My Bookings", href: "/my-bookings"},
   ];
 
   // Framer Motion Variants
@@ -98,9 +99,11 @@ const Navbar = () => {
               Sign In
             </Button>
 
-            <Button color="primary" size="sm">
-              Sign Up
-            </Button>
+            <Link href="/signup">
+              <Button color="primary" size="sm">
+                Sign Up
+              </Button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button with Icon Rotation */}
@@ -160,9 +163,12 @@ const Navbar = () => {
                     Sign In
                   </Button>
 
+                  <Link href="/signup">
                   <Button color="primary" fullWidth>
                     Sign Up
                   </Button>
+                  </Link> 
+                  
                 </div>
               </motion.div>
             </motion.div>
