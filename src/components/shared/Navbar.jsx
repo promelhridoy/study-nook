@@ -2,49 +2,51 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Link, Button } from "@heroui/react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import Link from "next/link";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { authClient } from "@/lib/auth-client";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "All Rooms", href: "/all-rooms" },
     { name: "Add Room", href: "/add-room" },
-    {name: "My Listings", href: "/my-listings"},
-    {name: "My Bookings", href: "/my-bookings"},
+    { name: "My Listings", href: "/my-listings" },
+    { name: "My Bookings", href: "/my-bookings" },
   ];
 
-  // Framer Motion Variants
   const menuVariants = {
-    hidden: { opacity: 0, height: 0, transition: { duration: 0.3, ease: "easeInOut" } },
-    visible: { 
-      opacity: 1, 
-      height: "auto", 
-      transition: { 
-        duration: 0.4, 
+    hidden: { opacity: 0, height: 0 },
+    visible: {
+      opacity: 1,
+      height: "auto",
+      transition: {
+        duration: 0.4,
         ease: "easeOut",
         staggerChildren: 0.05,
-        delayChildren: 0.1
-      } 
-    }
+      },
+    },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, x: -10 },
-    visible: { opacity: 1, x: 0, transition: { duration: 0.2 } }
+    visible: { opacity: 1, x: 0 },
   };
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-default-200 bg-background/80 backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl">
       <div className="px-4 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          
-          {/* Logo */}
-          <Link href="/" className="flex items-center transition-opacity hover:opacity-90 ">
+
+          {/* LOGO */}
+          <Link href="/" className="flex items-center">
             <Image
               src="/assets/logo.png"
               alt="StudyNook Logo"
@@ -54,75 +56,87 @@ const Navbar = () => {
             />
           </Link>
 
-          {/* Desktop Navigation */}
+          {/* DESKTOP NAV */}
           <ul className="hidden lg:flex items-center gap-2">
             {navLinks.map((link, idx) => (
-              <li 
-                key={link.name} 
+              <li
+                key={link.name}
                 className="relative"
                 onMouseEnter={() => setHoveredIndex(idx)}
                 onMouseLeave={() => setHoveredIndex(null)}
               >
                 <Link
                   href={link.href}
-                  className="relative z-10 block rounded-lg px-4 py-2 font-medium text-foreground transition-colors duration-200 hover:text-primary"
+                  className="block px-4 py-2 font-medium hover:text-primary"
                 >
                   {link.name}
                 </Link>
-                {/* Floating pill background animation */}
+
                 {hoveredIndex === idx && (
                   <motion.span
                     layoutId="navHover"
-                    className="absolute inset-0 z-0 rounded-lg bg-default-100"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="absolute inset-0 rounded-lg bg-default-100 -z-10"
                   />
                 )}
               </li>
             ))}
           </ul>
 
-          {/* Desktop Actions */}
+          {/* DESKTOP ACTIONS */}
           <div className="hidden lg:flex items-center gap-3">
-            <Button
-              isIconOnly
-              variant="light"
-              aria-label="Theme Toggle"
-              className="hover:bg-default-100 transition-colors"
-            >
-              <Sun size={18} />
-            </Button>
 
-            <Button variant="bordered" size="sm">
-              Sign In
-            </Button>
+            {user ? (
+              <Link href="/profile">
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="w-10 h-10 rounded-full bg-default-200 flex items-center justify-center overflow-hidden"
+                >
+                  {user.image ? (
+                    <Image
+                      src={user.image}
+                      alt={user.name}
+                      width={40}
+                      height={40}
+                    />
+                  ) : (
+                    <span className="font-bold text-primary">
+                      {user.name?.charAt(0).toUpperCase()}
+                    </span>
+                  )}
+                </motion.div>
+              </Link>
+            ) : (
+              <>
+                <Link
+                  href="/signin"
+                  className="px-3 py-2 rounded-lg hover:bg-default-100"
+                >
+                  Sign In
+                </Link>
 
-            <Link href="/signup">
-              <Button color="primary" size="sm">
-                Sign Up
-              </Button>
-            </Link>
+                <Link
+                  href="/signup"
+                  className="px-3 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </div>
 
-          {/* Mobile Menu Button with Icon Rotation */}
+          {/* MOBILE BUTTON */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="relative rounded-lg p-2 transition hover:bg-default-100 lg:hidden focus:outline-none"
-            aria-label="Toggle Menu"
+            className="lg:hidden p-2 rounded-lg hover:bg-default-100"
           >
-            <motion.div
-              animate={{ rotate: isOpen ? 90 : 0 }}
-              transition={{ duration: 0.2 }}
-              className="flex items-center justify-center"
-            >
+            <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </motion.div>
           </button>
         </div>
 
-        {/* Mobile Dropdown Menu */}
+        {/* MOBILE MENU */}
         <AnimatePresence>
           {isOpen && (
             <motion.div
@@ -130,15 +144,15 @@ const Navbar = () => {
               animate="visible"
               exit="hidden"
               variants={menuVariants}
-              className="overflow-hidden lg:hidden"
+              className="lg:hidden overflow-hidden"
             >
               <ul className="flex flex-col gap-1 pb-2">
                 {navLinks.map((link) => (
                   <motion.li key={link.name} variants={itemVariants}>
                     <Link
                       href={link.href}
-                      className="block rounded-lg px-4 py-3 text-foreground transition hover:bg-default-100 font-medium"
-                      onPress={() => setIsOpen(false)}
+                      onClick={() => setIsOpen(false)}
+                      className="block px-4 py-3 hover:bg-default-100 rounded-lg"
                     >
                       {link.name}
                     </Link>
@@ -146,30 +160,33 @@ const Navbar = () => {
                 ))}
               </ul>
 
-              <motion.div 
-                variants={itemVariants}
-                className="mt-2 border-t border-default-200 py-4"
-              >
-                <div className="flex flex-col gap-3">
-                  <Button
-                    variant="light"
-                    startContent={<Moon size={18} />}
-                    fullWidth
+              <motion.div className="border-t py-4 flex flex-col gap-3">
+
+                {!user ? (
+                  <>
+                    <Link
+                      href="/signin"
+                      className="text-center py-2 border rounded-lg"
+                    >
+                      Sign In
+                    </Link>
+
+                    <Link
+                      href="/signup"
+                      className="text-center py-2 bg-teal-600 text-white rounded-lg"
+                    >
+                      Sign Up
+                    </Link>
+                  </>
+                ) : (
+                  <Link
+                    href="/profile"
+                    className="text-center py-2 border rounded-lg"
+                    onClick={() => setIsOpen(false)}
                   >
-                    Dark Mode
-                  </Button>
-
-                  <Button variant="bordered" fullWidth>
-                    Sign In
-                  </Button>
-
-                  <Link href="/signup">
-                  <Button color="primary" fullWidth>
-                    Sign Up
-                  </Button>
-                  </Link> 
-                  
-                </div>
+                    My Profile
+                  </Link>
+                )}
               </motion.div>
             </motion.div>
           )}
