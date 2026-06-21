@@ -11,6 +11,7 @@ import {
   FaShoppingCart,
 } from "react-icons/fa";
 import Image from "next/image";
+import { EditModal } from "./EditModal";
 
 const DetailsPage = ({ id }) => {
   console.log("ID:", id);
@@ -72,9 +73,7 @@ const DetailsPage = ({ id }) => {
 
               {/* TOP BUTTONS */}
               <div className="flex justify-end gap-3 mb-3">
-                <Button color="primary" className="bg-[#00897b] text-white" startContent={<FaEdit />}>
-                  Edit
-                </Button>
+                <EditModal room={room} />
 
                 <Button color="danger" className="bg-[#dc2626] text-white" startContent={<FaTrash />}>
                   Delete
