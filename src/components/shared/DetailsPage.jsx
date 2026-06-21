@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { Card, Button, Chip } from "@heroui/react";
 import { motion } from "framer-motion";
+import BookingCard from "./BookingCard";
 import {
   FaUsers,
   FaMapMarkerAlt,
@@ -50,22 +51,34 @@ const DetailsPage = ({ id }) => {
           <div className="grid md:grid-cols-2 gap-6 items-center">
 
             {/* IMAGE SECTION */}
-            <div className="relative">
+            <div className="relative group">
 
-              <Image
-                src={room.image}
-                alt={room.name}
-                width={800}
-                height={500}
-                className="w-full h-80 object-cover rounded-xl"
-              />
+  <Image
+    src={room.image}
+    alt={room.name}
+    width={800}
+    height={500}
+    className="w-full h-80 object-cover rounded-xl"
+  />
 
-              {/* BADGE OVER IMAGE */}
-              <Chip className="absolute top-3 left-3 bg-[#00897b] text-white">
-                {room.badge}
-              </Chip>
+  {/* DARK OVERLAY */}
+  <div className="absolute inset-0 rounded-xl"></div>
 
-            </div>
+  {/* BADGE */}
+  <Chip className="absolute top-3 left-3 bg-[#00897b] text-white z-10">
+    {room.badge}
+  </Chip>
+
+  {/* TOP RIGHT STATUS */}
+  <div className="px-3 pt-6 py-1 space-y-3">
+    <h2 className="text-green-600 text-2xl font-bold">Available</h2>
+    <p className="text-xl font-medium"> ⭐ Rating: 4.5/5</p>
+    <p className="text-xl font-medium">💬 2000+ Reviews</p>
+  </div>
+
+  
+
+</div>
 
             {/* TEXT SECTION */}
             <div>
@@ -92,10 +105,6 @@ const DetailsPage = ({ id }) => {
                 <p className="flex items-center gap-2">
                   <FaUsers /> {room.capacity}
                 </p>
-
-                <p className="text-green-600 font-bold">
-                  💰 ${room.hourlyRate}/hr
-                </p>
               </div>
 
               {/* AMENITIES */}
@@ -109,12 +118,7 @@ const DetailsPage = ({ id }) => {
 
               {/* BOOK BUTTON */}
               <div className="mt-6">
-                <Button
-                  className="bg-[#00897b] text-white w-full"
-                  startContent={<FaShoppingCart />}
-                >
-                  Book Now
-                </Button>
+                <BookingCard room={room} />
               </div>
 
             </div>
