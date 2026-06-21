@@ -34,8 +34,6 @@ export default function AddRoomPage() {
 
     const roomData = Object.fromEntries(formData.entries());
 
-    // ✅ FIXED FIELD NAME (name not roomName)
-    roomData.name = roomData.name;
 
     // numbers convert
     roomData.capacity = Number(roomData.capacity);
@@ -47,7 +45,7 @@ export default function AddRoomPage() {
       : ["WiFi"];
 
     // badge (⭐ added)
-    roomData.badge = roomData.badge || "";
+    roomData.badge = roomData.badge || "new";
 
     console.log("Final Room Data:", roomData);
 

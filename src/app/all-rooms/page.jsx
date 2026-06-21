@@ -41,12 +41,12 @@ const AllRoomsPage = () => {
       const matchesFloor =
         selectedFloor === "all"
           ? true
-          : room.floor === selectedFloor;
+          : String(room.floor) === selectedFloor;
 
       const matchesCapacity =
         selectedCapacity === "all"
           ? true
-          : room.capacity === selectedCapacity;
+          : String(room.capacity) === selectedCapacity;
 
       return (
         matchesSearch &&
@@ -129,8 +129,8 @@ const AllRoomsPage = () => {
         >
           <option value="all">📍 All Floors</option>
 
-          {[...new Set(rooms.map((room) => room.floor))]
-            .filter(Boolean)
+          {[...new Set(rooms.map((room) => String(room.floor)))]
+            .filter((floor) => floor !== "undefined" && floor !== "null" && floor !== "")
             .map((floor) => (
               <option key={floor} value={floor}>
                 {floor}
@@ -148,8 +148,8 @@ const AllRoomsPage = () => {
         >
           <option value="all">👥 All Capacity</option>
 
-          {[...new Set(rooms.map((room) => room.capacity))]
-            .filter(Boolean)
+          {[...new Set(rooms.map((room) => String(room.capacity)))]
+            .filter((capacity) => capacity !== "undefined" && capacity !== "null" && capacity !== "")
             .map((capacity) => (
               <option
                 key={capacity}

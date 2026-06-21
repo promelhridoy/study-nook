@@ -4,14 +4,13 @@ import { useEffect, useState } from "react";
 import { Card, Button, Chip } from "@heroui/react";
 import { motion } from "framer-motion";
 import {
-  FaEdit,
-  FaTrash,
   FaUsers,
   FaMapMarkerAlt,
   FaShoppingCart,
 } from "react-icons/fa";
 import Image from "next/image";
 import { EditModal } from "./EditModal";
+import { DeleteAlert } from "./DeleteAlert";
 
 const DetailsPage = ({ id }) => {
   console.log("ID:", id);
@@ -75,9 +74,7 @@ const DetailsPage = ({ id }) => {
               <div className="flex justify-end gap-3 mb-3">
                 <EditModal room={room} />
 
-                <Button color="danger" className="bg-[#dc2626] text-white" startContent={<FaTrash />}>
-                  Delete
-                </Button>
+                <DeleteAlert room={room} />
               </div>
 
               {/* TITLE */}

@@ -23,8 +23,8 @@ const TopCollection = () => {
       <h2 className="text-2xl font-bold mb-6">Top Collection</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {rooms.slice(0, 6).map((room, index) => (
-          <RoomCard key={index} room={room} index={index} />
+        {rooms.slice(0, 6).map((room) => (
+          <RoomCard key={room._id} room={room} />
         ))}
       </div>
     </section>
