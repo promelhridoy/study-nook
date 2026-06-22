@@ -20,22 +20,30 @@ const DetailsPage = ({ id }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!id) return;
+  const fetchRoom = async () => {
+    try {
+      const res = await fetch(`http://localhost:5000/rooms/${id}`, {
+        method: "GET",
+        headers: {
+          authorization: "signed in",
+        },
+      });
 
-    const fetchRoom = async () => {
-      try {
-        const res = await fetch(`http://localhost:5000/rooms/${id}`);
-        const data = await res.json();
-        setRoom(data);
-      } catch (err) {
-        console.log(err);
-      } finally {
-        setLoading(false);
+      if (!res.ok) {
+        throw new Error("Failed to fetch room");
       }
-    };
 
-    fetchRoom();
-  }, [id]);
+      const data = await res.json();
+      setRoom(data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchRoom();
+}, [id]);
 
   if (loading) return <p className="text-center mt-10">Loading...</p>;
   if (!room) return <p className="text-center mt-10">No room found</p>;

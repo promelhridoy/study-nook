@@ -26,6 +26,8 @@ const SignInPage = () => {
   const [loading, setLoading] = useState(false);
   const [googleLoading, setGoogleLoading] = useState(false);
 
+  const isPending = loading || googleLoading;
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -47,7 +49,6 @@ const SignInPage = () => {
 
       if (data) {
         toast.success("Signed in successfully!");
-
         setTimeout(() => {
           router.push("/");
         }, 1000);
@@ -61,7 +62,6 @@ const SignInPage = () => {
 
   const handleGoogleSignin = async () => {
     setGoogleLoading(true);
-
     const id = toast.loading("Redirecting to Google...");
 
     try {
@@ -69,7 +69,6 @@ const SignInPage = () => {
         provider: "google",
         callbackURL: "/",
       });
-
       toast.success("Redirecting...", { id });
     } catch (error) {
       toast.error("Google Sign In Failed!", { id });
@@ -127,15 +126,16 @@ const SignInPage = () => {
               <FieldError />
             </TextField>
 
+            {/* Email Sign In Button */}
             <Button
               type="submit"
-              disabled={loading}
-              className="w-full bg-[#00897b] text-white py-5 rounded-2xl"
+              disabled={isPending} 
+              className="w-full bg-[#00897b] text-white py-5 rounded-2xl flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
-                  <Spinner size="sm" />
-                  Creating...
+                  <Spinner size="sm" color="white" />
+                  Signing in... 
                 </>
               ) : (
                 "Sign In"
@@ -145,30 +145,39 @@ const SignInPage = () => {
 
           <div>
             <p className="text-sm text-slate-400 mt-4">
-                Don't have an account?{" "}
-                <Link href="/signup" className="text-red-500 hover:underline">
-                  Sign up
-                </Link>
-              </p>
-            </div>
+              Don't have an account?{" "}
+              <Link href="/signup" className="text-red-500 hover:underline">
+                Sign up
+              </Link>
+            </p>
+          </div>
 
           {/* Divider */}
           <div className="flex items-center gap-3 my-6">
-            <div className="h-px bg-slate-400 w-full" />
+            <div className="h-px bg-slate-200/20 w-full" />
             <span className="text-xs text-slate-400 uppercase">
               OR 
             </span>
-            <div className="h-px bg-slate-400 w-full" />
+            <div className="h-px bg-slate-200/20 w-full" />
           </div>
 
-          {/* Google */}
+          {/* Google Sign In Button */}
           <Button
             onClick={handleGoogleSignin}
-            disabled={googleLoading}
+            disabled={isPending} 
             className="w-full bg-white border border-gray-300 text-black font-semibold py-5 rounded-2xl flex items-center justify-center gap-2"
           >
-            <FcGoogle size={22} />
-            {googleLoading ? "Redirecting..." : "Continue with Google"}
+            {googleLoading ? (
+              <>
+                <Spinner size="sm" color="current" />
+                Redirecting...
+              </>
+            ) : (
+              <>
+                <FcGoogle size={22} />
+                Continue with Google
+              </>
+            )}
           </Button>
 
         </Card>

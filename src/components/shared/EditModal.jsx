@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Button, Modal, Surface } from "@heroui/react";
 import { FaEdit } from "react-icons/fa";
 
-// Field কম্পোনেন্টটিকে বাইরে নিয়ে আসা হয়েছে যেন রি-রেন্ডারে সমস্যা না হয়
 const Field = ({ label, children }) => (
   <div className="space-y-2">
     <label className="text-sm font-medium text-gray-700">

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { FaFacebook, FaLinkedin, FaInstagram } from "react-icons/fa";
@@ -7,7 +8,11 @@ import { FaXTwitter } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
 const Footer = () => {
-  const currentYear = new Date().getFullYear();
+  const [currentYear, setCurrentYear] = useState("");
+
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
   const footerVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -33,6 +38,7 @@ const Footer = () => {
 
   return (
     <motion.footer
+      suppressHydrationWarning
       className="bg-white dark:bg-slate-950 border-t border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 transition-colors duration-300"
       initial="hidden"
       whileInView="visible"
@@ -89,7 +95,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  href="/rooms"
+                  href="/all-rooms"
                   className="hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
                 >
                   All Rooms
@@ -98,10 +104,10 @@ const Footer = () => {
 
               <li>
                 <Link
-                  href="/about"
+                  href="/add-room"
                   className="hover:text-teal-600 dark:hover:text-teal-400 transition-colors"
                 >
-                  About Us
+                  Add Room
                 </Link>
               </li>
             </ul>

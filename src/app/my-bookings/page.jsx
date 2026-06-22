@@ -1,4 +1,4 @@
-import BookingList from "@/components/shared/BookingList";
+import BookingContainer from "@/components/shared/BookingContainer";
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 
@@ -11,8 +11,8 @@ const MyBookingsPage = async () => {
 
   if (!user) {
     return (
-      <div className="text-center py-10">
-        <h1 className="text-2xl font-bold">Please Login First</h1>
+      <div className="text-center py-20 bg-gray-50 min-h-screen flex items-center justify-center">
+        <h1 className="text-2xl font-bold text-gray-700">Please Login First To View Bookings</h1>
       </div>
     );
   }
@@ -22,33 +22,20 @@ const MyBookingsPage = async () => {
     { cache: "no-store" }
   );
 
-  const bookings = await res.json();
+  const rawBookings = await res.json();
+  
+  // Transform or ensure safe array conversion for dynamic Next.js runtime environment 
+  const bookings = Array.isArray(rawBookings) ? rawBookings : [];
 
   return (
-    <div className="container mx-auto p-5">
-      <h1 className="text-3xl font-bold mb-6">My Bookings</h1>
-      <h2 className="text-xl font-semibold text-gray-600 mb-4">
-        {user.name}'s Bookings
-      </h2>
-      <h2 className="text-lg text-gray-500">
-        {bookings.length} bookings found
-      </h2>
+    <div className="container mx-auto p-5 max-w-5xl py-10 min-h-screen">
+      <h1 className="text-3xl font-black mb-2 text-gray-800">My Bookings</h1>
+      <p className="text-lg font-medium text-gray-500 mb-8">
+        Manage your premium reserved slots, {user.name}
+      </p>
 
-      <div className="space-y-6">
-        {bookings?.length > 0 ? (
-  bookings.map((booking, index) => (
-    <BookingList
-      key={booking._id}
-      booking={booking}
-      index={index}
-    />
-  ))
-) : (
-           <div className="text-center py-10 text-gray-500">
-            No bookings found.
-          </div>
-        )} 
-      </div>
+      {/* Clean Client bridge with structural data separation */}
+      <BookingContainer initialBookings={bookings} />
     </div>
   );
 };

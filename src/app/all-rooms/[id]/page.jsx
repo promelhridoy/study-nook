@@ -1,13 +1,10 @@
-import { use } from "react";
 import DetailsPage from "@/components/shared/DetailsPage";
 import AnotherRooms from "@/components/shared/AnotherRooms";
 
-const RoomDetailsPage = ({ params }) => {
-  const { id } = use(params); 
+const RoomDetailsPage = async ({ params }) => {
+  const { id } = await params;
 
-  console.log("Resolved ID:", id);
-
-  return(
+  return (
     <div>
       <DetailsPage id={id} />
       <AnotherRooms id={id} />

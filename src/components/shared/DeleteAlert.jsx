@@ -1,15 +1,16 @@
 "use client";
 
-import { AlertDialog, Button } from "@heroui/react";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { Button } from "@heroui/react";
+import { useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
 import { FaTrash } from "react-icons/fa";
-import { motion } from "framer-motion";
 
 export function DeleteAlert({ room }) {
   const { _id, name } = room;
-
   const router = useRouter();
+
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -26,74 +27,72 @@ export function DeleteAlert({ room }) {
       const data = await res.json();
 
       if (data.deletedCount > 0 || data.success) {
+        setOpen(false);
         router.push("/all-rooms");
         router.refresh();
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <AlertDialog>
-      <motion.div
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.9 }}
-      >
+    <>
+      {/* Trigger Button */}
+      <motion.div whileTap={{ scale: 0.95 }}>
         <Button
-          className="text-red-500 border-red-500 rounded-xl"
-          variant="outline"
+          onClick={() => setOpen(true)}
+          className="text-red-500 border border-red-500 rounded-xl"
         >
           <FaTrash />
           Delete
         </Button>
       </motion.div>
 
-      <AlertDialog.Backdrop>
-        <AlertDialog.Container>
+      {/* Modal */}
+      <AnimatePresence>
+        {open && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.85, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            transition={{ duration: 0.25 }}
+            className="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
           >
-            <AlertDialog.Dialog className="sm:max-w-[420px] rounded-2xl">
-              <AlertDialog.CloseTrigger />
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="bg-white p-6 rounded-2xl w-[420px]"
+            >
+              <h2 className="text-lg font-bold">
+                Delete Room?
+              </h2>
 
-              <AlertDialog.Header>
-                <AlertDialog.Icon status="danger" />
-                <AlertDialog.Heading>
-                  Delete Room Permanently?
-                </AlertDialog.Heading>
-              </AlertDialog.Header>
+              <p className="text-sm text-gray-500 mt-2">
+                This will permanently delete <b>{name}</b>.
+              </p>
 
-              <AlertDialog.Body>
-                <p className="text-gray-600">
-                  This will permanently delete{" "}
-                  <strong>{name}</strong> and all of its
-                  data. This action cannot be undone.
-                </p>
-              </AlertDialog.Body>
-
-              <AlertDialog.Footer>
-                <Button slot="close" variant="tertiary">
+              <div className="flex justify-end gap-3 mt-5">
+                <Button
+                  onClick={() => setOpen(false)}
+                  variant="flat"
+                >
                   Cancel
                 </Button>
 
                 <Button
                   onClick={handleDelete}
-                  slot="close"
-                  variant="danger"
                   disabled={loading}
+                  className="bg-red-500 text-white"
                 >
                   {loading ? "Deleting..." : "Delete"}
                 </Button>
-              </AlertDialog.Footer>
-            </AlertDialog.Dialog>
+              </div>
+            </motion.div>
           </motion.div>
-        </AlertDialog.Container>
-      </AlertDialog.Backdrop>
-    </AlertDialog>
+        )}
+      </AnimatePresence>
+    </>
   );
 }

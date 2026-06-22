@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
@@ -10,9 +10,15 @@ import { authClient } from "@/lib/auth-client";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [mounted, setMounted] = useState(false);
 
   const { data: session } = authClient.useSession();
   const user = session?.user;
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+  
 
   const navLinks = [
     { name: "Home", href: "/" },
@@ -84,7 +90,9 @@ const Navbar = () => {
           {/* DESKTOP ACTIONS */}
           <div className="hidden lg:flex items-center gap-3">
 
-            {user ? (
+            {!mounted ? (
+              <div className="w-24 h-8 bg-gray-200 animate-pulse rounded" />
+            ) : user ? (
               <Link href="/profile">
                 <motion.div
                   initial={{ opacity: 0 }}
@@ -161,7 +169,9 @@ const Navbar = () => {
 
               <motion.div className="border-t py-4 flex flex-col gap-3">
 
-                {!user ? (
+                {!mounted ? (
+                  <div className="h-20 bg-gray-200 animate-pulse rounded" />
+                ) : !user ? (
                   <>
                     <Link
                       href="/signin"
