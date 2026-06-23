@@ -23,7 +23,7 @@ export function BookingCancelAlert({ bookingId, onDelete }) {
       setLoading(true);
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${bookingId}`,
+        `https://study-nook-server-murex.vercel.app/booking/${bookingId}`,
         {
           method: "DELETE",
           headers: {

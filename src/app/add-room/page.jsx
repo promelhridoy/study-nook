@@ -56,7 +56,7 @@ export default function AddRoomPage() {
       console.log(token);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/rooms`, {
+      const res = await fetch(`https://study-nook-server-murex.vercel.app/rooms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

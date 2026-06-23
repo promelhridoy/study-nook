@@ -43,7 +43,7 @@ const BookingCard = ({ room }) => {
     
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/bookings`, {
+      const res = await fetch(`https://study-nook-server-murex.vercel.app/bookings`, {
         method: "POST",
         headers: {
           "content-type": "application/json",

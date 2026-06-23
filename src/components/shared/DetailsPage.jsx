@@ -30,7 +30,7 @@ const DetailsPage =  ({ id }) => {
       
       
       
-      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${id}`, {
+      const res = await fetch(`https://study-nook-server-murex.vercel.app/rooms/${id}`, {
         method: "GET",
         headers: {
           authorization: `Bearer ${token}`,

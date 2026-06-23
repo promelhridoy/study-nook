@@ -67,7 +67,7 @@ export function EditModal({ room }) {
 
   try {
     const res = await fetch(
-      `http://${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${_id}`,
+      `http://https://study-nook-server-murex.vercel.app/rooms/${_id}`,
       {
         method: "PATCH",
         headers: {

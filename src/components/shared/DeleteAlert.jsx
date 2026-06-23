@@ -23,7 +23,7 @@ export function DeleteAlert({ room }) {
       setLoading(true);
 
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${_id}`,
+        `https://study-nook-server-murex.vercel.app/rooms/${_id}`,
         {
           method: "DELETE",
           headers: {
