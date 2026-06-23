@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Button, Modal, Surface } from "@heroui/react";
 import { FaEdit } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
 
 const Field = ({ label, children }) => (
   <div className="space-y-2">
@@ -60,6 +61,10 @@ export function EditModal({ room }) {
     hourlyRate: Number(formData.get("hourlyRate")),
   };
 
+   const tokenData  = await authClient.token();
+      const token = tokenData.data.token
+      console.log(token);
+
   try {
     const res = await fetch(
       `http://localhost:5000/rooms/${_id}`,
@@ -67,6 +72,7 @@ export function EditModal({ room }) {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(roomData),
       }

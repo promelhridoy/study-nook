@@ -12,20 +12,28 @@ import {
 import Image from "next/image";
 import { EditModal } from "./EditModal";
 import { DeleteAlert } from "./DeleteAlert";
+import { authClient } from "@/lib/auth-client";
 
-const DetailsPage = ({ id }) => {
-  console.log("ID:", id);
-
+const DetailsPage =  ({ id }) => {
   const [room, setRoom] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
   const fetchRoom = async () => {
     try {
+
+
+      const tokenData  = await authClient.token();
+      const token = tokenData.data.token
+      console.log(token);
+      
+      
+      
+      
       const res = await fetch(`http://localhost:5000/rooms/${id}`, {
         method: "GET",
         headers: {
-          authorization: "signed in",
+          authorization: `Bearer ${token}`,
         },
       });
 

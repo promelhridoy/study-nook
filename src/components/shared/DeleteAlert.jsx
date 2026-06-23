@@ -5,6 +5,7 @@ import { Button } from "@heroui/react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaTrash } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
 
 export function DeleteAlert({ room }) {
   const { _id, name } = room;
@@ -14,6 +15,10 @@ export function DeleteAlert({ room }) {
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
+
+    const tokenData  = await authClient.token();
+      const token = tokenData.data.token
+      console.log(token);
     try {
       setLoading(true);
 
@@ -21,6 +26,9 @@ export function DeleteAlert({ room }) {
         `http://localhost:5000/rooms/${_id}`,
         {
           method: "DELETE",
+          headers: {
+            authorization: `Bearer ${token}`,
+          }
         }
       );
 

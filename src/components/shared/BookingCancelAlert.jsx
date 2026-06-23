@@ -8,12 +8,17 @@ import {
   FaExclamationTriangle,
   FaTimes,
 } from "react-icons/fa";
+import { authClient } from "@/lib/auth-client";
 
 export function BookingCancelAlert({ bookingId, onDelete }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleCancelBooking = async () => {
+
+    const tokenData  = await authClient.token();
+          const token = tokenData.data.token
+          console.log(token);
     try {
       setLoading(true);
 
@@ -23,6 +28,7 @@ export function BookingCancelAlert({ bookingId, onDelete }) {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
+            authorization: `Bearer ${token}`,
             },
         }
       );

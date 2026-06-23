@@ -9,17 +9,20 @@ const MyBookingsPage = async () => {
 
   const user = session?.user;
 
-  if (!user) {
-    return (
-      <div className="text-center py-20 bg-gray-50 min-h-screen flex items-center justify-center">
-        <h1 className="text-2xl font-bold text-gray-700">Please Login First To View Bookings</h1>
-      </div>
-    );
-  }
+
+  const { token } = await auth.api.getToken({
+    headers: await headers(),
+  });
+
 
   const res = await fetch(
     `http://localhost:5000/bookings/${user.id}`,
-    { cache: "no-store" }
+    {
+      headers: {
+      authorization: `Bearer ${token}`
+    },
+       cache: "no-store" ,
+      }
   );
 
   const rawBookings = await res.json();
