@@ -23,7 +23,7 @@ export function DeleteAlert({ room }) {
       setLoading(true);
 
       const res = await fetch(
-        `http://localhost:5000/rooms/${_id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${_id}`,
         {
           method: "DELETE",
           headers: {

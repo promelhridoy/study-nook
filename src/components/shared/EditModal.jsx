@@ -67,7 +67,7 @@ export function EditModal({ room }) {
 
   try {
     const res = await fetch(
-      `http://localhost:5000/rooms/${_id}`,
+      `http://${process.env.NEXT_PUBLIC_SERVER_URL}/rooms/${_id}`,
       {
         method: "PATCH",
         headers: {

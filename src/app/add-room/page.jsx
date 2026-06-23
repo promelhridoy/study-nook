@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Loader2, PlusCircle } from "lucide-react";
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { authClient } from "@/lib/auth-client";
+
 
 export default function AddRoomPage() {
   const [loading, setLoading] = useState(false);
@@ -51,12 +51,12 @@ export default function AddRoomPage() {
 
     console.log("Final Room Data:", roomData);
 
-     const { token } = await auth.api.getToken({
-        headers: await headers(),
-      });
+     const tokenData  = await authClient.token();
+      const token = tokenData.data.token
+      console.log(token);
 
     try {
-      const res = await fetch("http://localhost:5000/rooms", {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/rooms`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

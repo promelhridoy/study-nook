@@ -23,7 +23,7 @@ export function BookingCancelAlert({ bookingId, onDelete }) {
       setLoading(true);
 
       const res = await fetch(
-        `http://localhost:5000/booking/${bookingId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/booking/${bookingId}`,
         {
           method: "DELETE",
           headers: {
