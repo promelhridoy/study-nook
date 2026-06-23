@@ -32,9 +32,9 @@ const DetailsPage =  ({ id }) => {
       
       const res = await fetch(`https://study-nook-server-murex.vercel.app/rooms/${id}`, {
         method: "GET",
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
+        // headers: {
+        //   authorization: `Bearer ${token}`,
+        // },
       });
 
       if (!res.ok) {
